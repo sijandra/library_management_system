@@ -15,7 +15,9 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/lms/user/**").permitAll()
+                        .requestMatchers("/api/lms/user/**", "/api/lms/book/**", "/api/lms/books/**",
+                                "/api/lms/borrow/**")
+                        .permitAll()
                         .anyRequest().authenticated());
 
         return http.build();
