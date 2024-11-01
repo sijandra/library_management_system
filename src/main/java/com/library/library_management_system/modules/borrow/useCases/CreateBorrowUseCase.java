@@ -1,6 +1,8 @@
 package com.library.library_management_system.modules.borrow.useCases;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -78,9 +80,11 @@ public class CreateBorrowUseCase {
 
                 Long[] existingBookIds = user.getBooksBorrowed();
 
-                Long[] updatedBookIds = Arrays.copyOf(existingBookIds, existingBookIds.length + 1);
+                Set<Long> updatedBookIdsSet = new HashSet<>(Arrays.asList(existingBookIds));
 
-                updatedBookIds[existingBookIds.length] = borrow.getBookId();
+                updatedBookIdsSet.add(borrow.getBookId());
+
+                Long[] updatedBookIds = updatedBookIdsSet.toArray(new Long[0]);
 
                 user.setBooksBorrowed(updatedBookIds);
 

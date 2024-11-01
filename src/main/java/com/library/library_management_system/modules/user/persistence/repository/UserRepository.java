@@ -86,4 +86,12 @@ public class UserRepository {
 
         return this.jwtService.generateToken(user.getId().toString());
     }
+
+    public String logoutUser(String token) {
+        if (token != null) {
+            jwtService.invalidateToken(token);
+        }
+
+        return token;
+    }
 }
