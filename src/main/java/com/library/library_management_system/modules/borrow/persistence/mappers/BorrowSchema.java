@@ -34,16 +34,13 @@ public class BorrowSchema {
     private Double fineFee;
 
     @Column(name = "is_fine_paid")
-    private Boolean isFinePaid;
+    private Boolean isFinePaid = false;
 
     @Column(name = "is_lost")
-    private Boolean isLost;
+    private Boolean isLost = false;
 
     @Column(name = "fine_per_day")
     private Double finePerDay;
-
-    @Column(name = "user_id")
-    private Long userId;
 
     public Long getId() {
         return id;
@@ -123,13 +120,5 @@ public class BorrowSchema {
 
     public void setFinePerDay(Double finePerDay) {
         this.finePerDay = finePerDay;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 }

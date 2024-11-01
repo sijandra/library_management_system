@@ -21,7 +21,6 @@ public class UserMapper {
                 userSchema.getContactNumber(),
                 userSchema.getPassword(),
                 userSchema.getBooksBorrowed(),
-                userSchema.getLostBooks(),
                 userSchema.getCreatedAt());
     }
 
@@ -40,7 +39,6 @@ public class UserMapper {
         userSchema.setContactNumber(userDomain.getContactNumber());
         userSchema.setPassword(userDomain.getPassword());
         userSchema.setBooksBorrowed(userDomain.getBooksBorrowed());
-        userSchema.setLostBooks(userDomain.getLostBooks());
         userSchema.setCreatedAt(userDomain.getCreatedAt());
 
         return userSchema;

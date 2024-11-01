@@ -19,9 +19,7 @@ public interface IUser {
 
     String getPassword();
 
-    String[] getBooksBorrowed();
-
-    String[] getLostBooks();
+    Long[] getBooksBorrowed();
 
     LocalDate getCreatedAt();
 
@@ -41,9 +39,7 @@ public interface IUser {
 
     void setPassword(String password);
 
-    void setBooksBorrowed(String[] booksBorrowed);
-
-    void setLostBooks(String[] lostBooks);
+    void setBooksBorrowed(Long[] booksBorrowed);
 
     void setCreatedAt(LocalDate createdAt);
 }

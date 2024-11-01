@@ -29,10 +29,7 @@ public class UserSchema {
     private String password;
 
     @ElementCollection
-    private String[] books_borrowed = new String[0];
-
-    @ElementCollection
-    private String[] lost_books = new String[0];
+    private Long[] books_borrowed = new Long[0];
 
     private LocalDate createdAt = LocalDate.now();
 
@@ -92,20 +89,12 @@ public class UserSchema {
         this.password = password;
     }
 
-    public String[] getBooksBorrowed() {
+    public Long[] getBooksBorrowed() {
         return books_borrowed;
     }
 
-    public void setBooksBorrowed(String[] booksBorrowed) {
+    public void setBooksBorrowed(Long[] booksBorrowed) {
         this.books_borrowed = booksBorrowed;
-    }
-
-    public String[] getLostBooks() {
-        return lost_books;
-    }
-
-    public void setLostBooks(String[] lostBooks) {
-        this.lost_books = lostBooks;
     }
 
     public LocalDate getCreatedAt() {

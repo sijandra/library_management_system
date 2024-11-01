@@ -24,36 +24,8 @@ public class BorrowRepository {
         return BorrowMapper.toDomain(borrowSchema);
     }
 
-    public List<Borrow> getBorrowByUserId(Long userId) {
-        List<BorrowSchema> borrowSchemas = borrowRepository.getBorrowByUserId(userId);
-        return borrowSchemas.stream()
-                .map(BorrowMapper::toDomain)
-                .collect(Collectors.toList());
-    }
-
-    public List<Borrow> getBorrowByNotPaid() {
-        List<BorrowSchema> borrowSchemas = borrowRepository.getBorrowByIsFinePaidFalse();
-        return borrowSchemas.stream()
-                .map(BorrowMapper::toDomain)
-                .collect(Collectors.toList());
-    }
-
-    public List<Borrow> getBorrowByLost() {
-        List<BorrowSchema> borrowSchemas = borrowRepository.getBorrowByIsLostTrue();
-        return borrowSchemas.stream()
-                .map(BorrowMapper::toDomain)
-                .collect(Collectors.toList());
-    }
-
     public List<Borrow> getBorrowByStatus(String status) {
         List<BorrowSchema> borrowSchemas = borrowRepository.getBorrowByBorrowStatus(status);
-        return borrowSchemas.stream()
-                .map(BorrowMapper::toDomain)
-                .collect(Collectors.toList());
-    }
-
-    public List<Borrow> getBorrowByPaid() {
-        List<BorrowSchema> borrowSchemas = borrowRepository.getBorrowByIsFinePaidTrue();
         return borrowSchemas.stream()
                 .map(BorrowMapper::toDomain)
                 .collect(Collectors.toList());
@@ -65,10 +37,12 @@ public class BorrowRepository {
         return BorrowMapper.toDomain(savedBorrowSchema);
     }
 
-    public Borrow updateBorrowById(Long id, Borrow borrow) {
-        borrow.setId(id);
-        BorrowSchema borrowSchema = BorrowMapper.toPersistence(borrow);
-        BorrowSchema updatedBorrowSchema = borrowRepository.save(borrowSchema);
+    public Borrow updateStatusByBorrowById(Long id, String borrowStatus) {
+        BorrowSchema foundBorrowSchema = borrowRepository.findById(id).orElse(null);
+
+        foundBorrowSchema.setBorrowStatus(borrowStatus);
+
+        BorrowSchema updatedBorrowSchema = borrowRepository.save(foundBorrowSchema);
         return BorrowMapper.toDomain(updatedBorrowSchema);
     }
 }

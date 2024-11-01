@@ -24,20 +24,4 @@ public interface IBorrow {
     String getBorrowStatus();
 
     void setBorrowStatus(String borrowStatus);
-
-    Double getFineFee();
-
-    void setFineFee(Double fineFee);
-
-    Boolean getIsFinePaid();
-
-    void setIsFinePaid(Boolean isFinePaid);
-
-    Boolean getIsLost();
-
-    void setIsLost(Boolean isLost);
-
-    Double getFinePerDay();
-
-    void setFinePerDay(Double finePerDay);
 }

@@ -14,34 +14,27 @@ import com.library.library_management_system.modules.books.persistence.repositor
 import com.library.library_management_system.modules.books.useCases.GetBooksByIdUseCase;
 import com.library.library_management_system.modules.borrow.domain.models.Borrow;
 import com.library.library_management_system.modules.borrow.persistence.repository.BorrowRepository;
-import com.library.library_management_system.modules.user.domain.models.User;
-import com.library.library_management_system.modules.user.persistence.mappers.UserMapper;
-import com.library.library_management_system.modules.user.persistence.mappers.UserSchema;
-import com.library.library_management_system.modules.user.persistence.repository.IUserRepository;
-import com.library.library_management_system.modules.user.useCases.GetByUserIdUseCase;
 
 @Component
-public class CreateBorrowUseCase {
+public class UpdateStatusByBorrowIdUseCase {
     private final BorrowRepository borrowRepository;
     private final GetBookByIdUseCase getBookByIdUseCase;
     private final GetBooksByIdUseCase getBooksByIdUseCase;
-    private final GetByUserIdUseCase getByUserIdUseCase;
     private final IBooksRepository booksRepository;
-    private final IUserRepository userRepository;
 
     @Autowired
-    public CreateBorrowUseCase(BorrowRepository borrowRepository, GetBookByIdUseCase getBookByIdUseCase,
-            GetBooksByIdUseCase getBooksByIdUseCase, GetByUserIdUseCase getByUserIdUseCase,
-            IBooksRepository booksRepository, IUserRepository userRepository) {
+    public UpdateStatusByBorrowIdUseCase(BorrowRepository borrowRepository, GetBookByIdUseCase getBookByIdUseCase,
+            GetBooksByIdUseCase getBooksByIdUseCase,
+            IBooksRepository booksRepository) {
         this.borrowRepository = borrowRepository;
         this.getBookByIdUseCase = getBookByIdUseCase;
         this.getBooksByIdUseCase = getBooksByIdUseCase;
-        this.getByUserIdUseCase = getByUserIdUseCase;
         this.booksRepository = booksRepository;
-        this.userRepository = userRepository;
     }
 
-    public Borrow execute(Borrow borrow) {
+    public Borrow execute(Long id, String borrowStatus) {
+        Borrow borrow = borrowRepository.getBorrowById(id);
+
         Book foundBook = getBookByIdUseCase.execute(borrow.getBookId());
 
         if (foundBook != null) {
@@ -54,17 +47,16 @@ public class CreateBorrowUseCase {
 
                 Long[] currentBorrowedBookIds = foundBooks.getBorrowedBookIds();
 
-                Boolean isBookIdToBeBorrowedInsideBorrowedBooks = this.isBookBorrowed(borrow.getBookId(),
+                Boolean isBookIdToBeReturnedInsideBorrowedBooks = this.isBookBorrowed(borrow.getBookId(),
                         currentBorrowedBookIds);
 
-                if (Boolean.TRUE.equals(isBookIdToBeBorrowedInsideBorrowedBooks)) {
+                if (!Boolean.TRUE.equals(isBookIdToBeReturnedInsideBorrowedBooks)) {
                     return null;
                 }
 
-                Long[] updatedBorrowedBookIds = Arrays.copyOf(currentBorrowedBookIds,
-                        currentBorrowedBookIds.length + 1);
-
-                updatedBorrowedBookIds[currentBorrowedBookIds.length] = borrow.getBookId();
+                Long[] updatedBorrowedBookIds = Arrays.stream(currentBorrowedBookIds)
+                        .filter(borrowedBookId -> !borrowedBookId.equals(borrow.getBookId()))
+                        .toArray(Long[]::new);
 
                 foundBooks.setBorrowedBookIds(updatedBorrowedBookIds);
 
@@ -74,21 +66,7 @@ public class CreateBorrowUseCase {
 
                 booksRepository.save(foundBooksSchema);
 
-                User user = getByUserIdUseCase.execute(borrow.getBorrowerUserId());
-
-                Long[] existingBookIds = user.getBooksBorrowed();
-
-                Long[] updatedBookIds = Arrays.copyOf(existingBookIds, existingBookIds.length + 1);
-
-                updatedBookIds[existingBookIds.length] = borrow.getBookId();
-
-                user.setBooksBorrowed(updatedBookIds);
-
-                UserSchema userSchema = UserMapper.toPersistence(user);
-
-                userRepository.save(userSchema);
-
-                return this.borrowRepository.createBorrow(borrow);
+                return this.borrowRepository.updateStatusByBorrowById(id, borrowStatus);
             }
         }
 
