@@ -19,6 +19,7 @@ import com.library.library_management_system.modules.user.useCases.CreateUserUse
 import com.library.library_management_system.modules.user.useCases.GetAllUsersUseCase;
 import com.library.library_management_system.modules.user.useCases.GetByUserIdUseCase;
 import com.library.library_management_system.modules.user.useCases.LoginUserUseCase;
+import com.library.library_management_system.modules.user.useCases.LogoutUserUseCase;
 
 @RestController
 @RequestMapping(path = "api/lms/user")
@@ -26,15 +27,18 @@ public class UsersService {
     private final GetAllUsersUseCase getAllUsersUseCase;
     private final CreateUserUseCase createUserUseCase;
     private final LoginUserUseCase loginUserUseCase;
+    private final LogoutUserUseCase logoutUserUseCase;
     private final GetByUserIdUseCase getByUserIdUseCase;
     private final JwtService jwtService;
 
     @Autowired
     public UsersService(GetAllUsersUseCase getAllUsersUseCase, CreateUserUseCase createUserUseCase,
-            LoginUserUseCase loginUserUseCase, GetByUserIdUseCase getByUserIdUseCase, JwtService jwtService) {
+            LoginUserUseCase loginUserUseCase, LogoutUserUseCase logoutUserUseCase,
+            GetByUserIdUseCase getByUserIdUseCase, JwtService jwtService) {
         this.getAllUsersUseCase = getAllUsersUseCase;
         this.createUserUseCase = createUserUseCase;
         this.loginUserUseCase = loginUserUseCase;
+        this.logoutUserUseCase = logoutUserUseCase;
         this.getByUserIdUseCase = getByUserIdUseCase;
         this.jwtService = jwtService;
     }
@@ -94,5 +98,10 @@ public class UsersService {
         }
 
         return new ResponseEntity<>(userToken, HttpStatus.OK);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logoutUser(@RequestHeader() String token) {
+        return ResponseEntity.ok(this.logoutUserUseCase.execute(token));
     }
 }
