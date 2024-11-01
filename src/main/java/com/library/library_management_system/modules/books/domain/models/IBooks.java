@@ -28,4 +28,8 @@ public interface IBooks {
     String[] getBorrowedBookIds();
 
     void setBorrowedBookIds(String[] borrowedBookIds);
+
+    String getTitle();
+
+    void setTitle(String title);
 }

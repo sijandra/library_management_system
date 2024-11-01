@@ -20,29 +20,29 @@ public class JwtService {
         this.redisService = redisService;
     }
 
-    public String generateToken(String email) {
+    public String generateToken(String userId) {
         long expirationTime = 1000 * 60 * 60;
 
         String token = Jwts.builder()
-                .setSubject(email)
+                .setSubject(userId)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
 
-        this.redisService.setValue(token, email, expirationTime, TimeUnit.MILLISECONDS);
+        this.redisService.setValue(token, userId, expirationTime, TimeUnit.MILLISECONDS);
 
         return token;
     }
 
-    public boolean validateToken(String token, String email) {
+    public boolean validateToken(String token, String userId) {
         if (this.isTokenInvalidated(token)) {
             return false;
         }
 
-        final String extractedEmail = this.extractMetadata(token);
-        String storedEmail = this.redisService.getValue(token);
-        return (extractedEmail.equals(email) && storedEmail != null && storedEmail.equals(email)
+        final String extractedUserId = this.extractMetadata(token);
+        String storedUserId = this.redisService.getValue(token);
+        return (extractedUserId.equals(userId) && storedUserId != null && storedUserId.equals(userId)
                 && !this.isTokenExpired(token));
     }
 

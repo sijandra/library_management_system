@@ -79,6 +79,6 @@ public class UserRepository {
             return null;
         }
 
-        return this.jwtService.generateToken(email);
+        return this.jwtService.generateToken(user.getId().toString());
     }
 }

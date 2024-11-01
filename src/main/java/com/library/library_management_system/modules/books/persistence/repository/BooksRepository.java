@@ -31,22 +31,8 @@ public class BooksRepository {
                 .collect(Collectors.toList());
     }
 
-    public List<Books> getAvailableBooks() {
-        List<BooksSchema> booksSchemas = booksRepository.getAvailableBooks();
-        return booksSchemas.stream()
-                .map(BooksMapper::toDomain)
-                .collect(Collectors.toList());
-    }
-
     public List<Books> getBooksBySectionId(String sectionId) {
         List<BooksSchema> booksSchemas = booksRepository.getBooksBySectionId(sectionId);
-        return booksSchemas.stream()
-                .map(BooksMapper::toDomain)
-                .collect(Collectors.toList());
-    }
-
-    public List<Books> getUnavailableBooks() {
-        List<BooksSchema> booksSchemas = booksRepository.getUnavailableBooks();
         return booksSchemas.stream()
                 .map(BooksMapper::toDomain)
                 .collect(Collectors.toList());

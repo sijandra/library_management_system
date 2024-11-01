@@ -143,7 +143,7 @@ public class BorrowService {
     private boolean isValidToken(String token) {
         if (token == null)
             return false;
-        String email = jwtService.extractMetadata(token);
-        return jwtService.validateToken(token, email);
+        String userId = jwtService.extractMetadata(token);
+        return jwtService.validateToken(token, userId);
     }
 }

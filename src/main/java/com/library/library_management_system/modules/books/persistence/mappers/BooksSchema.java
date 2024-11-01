@@ -36,6 +36,8 @@ public class BooksSchema {
     @Column(name = "borrowed_book_ids")
     private String[] borrowedBookIds = new String[0];
 
+    private String title;
+
     public Long getId() {
         return id;
     }
@@ -90,5 +92,13 @@ public class BooksSchema {
 
     public void setBorrowedBookIds(String[] borrowedBookIds) {
         this.borrowedBookIds = borrowedBookIds;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

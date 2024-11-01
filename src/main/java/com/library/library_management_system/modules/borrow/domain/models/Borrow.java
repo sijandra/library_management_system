@@ -11,10 +11,11 @@ public class Borrow implements IBorrow {
     private Boolean isFinePaid;
     private Boolean isLost;
     private Double finePerDay;
+    private Long userId;
 
     protected Borrow(Long id, Long bookId, Long borrowerUserId, String returnDate, String borrowDate,
             String borrowStatus,
-            Double fineFee, Boolean isFinePaid, Boolean isLost, Double finePerDay) {
+            Double fineFee, Boolean isFinePaid, Boolean isLost, Double finePerDay, Long userId) {
         this.id = id;
         this.bookId = bookId;
         this.borrowerUserId = borrowerUserId;
@@ -25,13 +26,14 @@ public class Borrow implements IBorrow {
         this.isFinePaid = isFinePaid;
         this.isLost = isLost;
         this.finePerDay = finePerDay;
+        this.userId = userId;
     }
 
     public static Borrow create(Long id, Long bookId, Long borrowerUserId, String returnDate, String borrowDate,
             String borrowStatus, Double fineFee, Boolean isFinePaid, Boolean isLost,
-            Double finePerDay) {
+            Double finePerDay, Long userId) {
         return new Borrow(id, bookId, borrowerUserId, returnDate, borrowDate, borrowStatus, fineFee, isFinePaid, isLost,
-                finePerDay);
+                finePerDay, userId);
     }
 
     @Override
@@ -132,5 +134,13 @@ public class Borrow implements IBorrow {
     @Override
     public void setFinePerDay(Double finePerDay) {
         this.finePerDay = finePerDay;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

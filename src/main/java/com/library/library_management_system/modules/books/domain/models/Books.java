@@ -8,9 +8,10 @@ public class Books implements IBooks {
     private Integer numberOfAvailableBooks;
     private String sectionId;
     private String[] borrowedBookIds;
+    private String title;
 
     protected Books(Long id, String genreId, String[] bookIds, Integer bookCount, Integer numberOfAvailableBooks,
-            String sectionId, String[] borrowedBookIds) {
+            String sectionId, String[] borrowedBookIds, String title) {
         this.id = id;
         this.genreId = genreId;
         this.bookIds = bookIds;
@@ -18,11 +19,12 @@ public class Books implements IBooks {
         this.numberOfAvailableBooks = numberOfAvailableBooks;
         this.sectionId = sectionId;
         this.borrowedBookIds = borrowedBookIds;
+        this.title = title;
     }
 
     public static Books create(Long id, String genreId, String[] bookIds, Integer bookCount,
-            Integer numberOfAvailableBooks, String sectionId, String[] borrowedBookIds) {
-        return new Books(id, genreId, bookIds, bookCount, numberOfAvailableBooks, sectionId, borrowedBookIds);
+            Integer numberOfAvailableBooks, String sectionId, String[] borrowedBookIds, String title) {
+        return new Books(id, genreId, bookIds, bookCount, numberOfAvailableBooks, sectionId, borrowedBookIds, title);
     }
 
     @Override
@@ -93,5 +95,15 @@ public class Books implements IBooks {
     @Override
     public void setBorrowedBookIds(String[] borrowedBookIds) {
         this.borrowedBookIds = borrowedBookIds;
+    }
+
+    @Override
+    public String getTitle() {
+        return title;
+    }
+
+    @Override
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
