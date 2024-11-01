@@ -117,9 +117,9 @@ public class BookService {
         return book != null ? ResponseEntity.ok(book) : ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/get-by-genre/{genreId}")
+    @GetMapping("/get-by-genres")
     public ResponseEntity<List<Book>> getBooksByGenreId(@RequestHeader() String token,
-            @PathVariable String genreId) {
+            @RequestBody Long[] genreId) {
         if (token == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
@@ -135,7 +135,7 @@ public class BookService {
 
     @GetMapping("/get-by-section/{sectionId}")
     public ResponseEntity<List<Book>> getBooksBySectionId(@RequestHeader() String token,
-            @PathVariable String sectionId) {
+            @PathVariable Long sectionId) {
         if (token == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }

@@ -17,7 +17,7 @@ public class GetBookByGenreIdUseCase {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> execute(String genreId) {
-        return this.bookRepository.getBookByGenreId(genreId);
+    public List<Book> execute(Long[] genreId) {
+        return this.bookRepository.getBooksByGenreIds(genreId);
     }
 }

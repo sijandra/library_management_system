@@ -32,25 +32,25 @@ public class BookSchema {
     private String publishedDate;
 
     @Column(name = "publisher_id")
-    private String publisherId;
+    private Long publisherId;
 
     private String language;
 
     @ElementCollection
     @Column(name = "authors_id")
-    private String[] authorsId = new String[0];
+    private Long[] authorsId = new Long[0];
 
     @ElementCollection
     @Column(name = "genre_ids")
-    private String[] genreIds = new String[0];
+    private Long[] genreIds = new Long[0];
 
     private Integer pages;
 
     @Column(name = "section_id")
-    private String sectionId;
+    private Long sectionId;
 
     @Column(name = "books_id")
-    private String booksId;
+    private Long booksId;
 
     public Long getId() {
         return id;
@@ -108,11 +108,11 @@ public class BookSchema {
         this.publishedDate = publishedDate;
     }
 
-    public String getPublisherId() {
+    public Long getPublisherId() {
         return publisherId;
     }
 
-    public void setPublisherId(String publisherId) {
+    public void setPublisherId(Long publisherId) {
         this.publisherId = publisherId;
     }
 
@@ -124,35 +124,35 @@ public class BookSchema {
         this.language = language;
     }
 
-    public String[] getAuthorsId() {
+    public Long[] getAuthorsId() {
         return authorsId;
     }
 
-    public void setAuthorsId(String[] authorsId) {
+    public void setAuthorsId(Long[] authorsId) {
         this.authorsId = authorsId;
     }
 
-    public String getSectionId() {
+    public Long getSectionId() {
         return sectionId;
     }
 
-    public void setSectionId(String sectionId) {
+    public void setSectionId(Long sectionId) {
         this.sectionId = sectionId;
     }
 
-    public String getBooksId() {
+    public Long getBooksId() {
         return booksId;
     }
 
-    public void setBooksId(String booksId) {
+    public void setBooksId(Long booksId) {
         this.booksId = booksId;
     }
 
-    public String[] getGenreIds() {
+    public Long[] getGenreIds() {
         return genreIds;
     }
 
-    public void setGenreIds(String[] genreIds) {
+    public void setGenreIds(Long[] genreIds) {
         this.genreIds = genreIds;
     }
 

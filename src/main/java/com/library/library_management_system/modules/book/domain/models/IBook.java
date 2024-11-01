@@ -29,31 +29,31 @@ public interface IBook {
 
     void setPublishedDate(String publishedDate);
 
-    String getPublisherId();
+    Long getPublisherId();
 
-    void setPublisherId(String publisherId);
+    void setPublisherId(Long publisherId);
 
     String getLanguage();
 
     void setLanguage(String language);
 
-    String[] getAuthorsId();
+    Long[] getAuthorsId();
 
-    void setAuthorsId(String[] authorsId);
+    void setAuthorsId(Long[] authorsId);
 
-    String[] getGenreIds();
+    Long[] getGenreIds();
 
-    void setGenreIds(String[] genreIds);
+    void setGenreIds(Long[] genreIds);
 
     Integer getPages();
 
     void setPages(Integer pages);
 
-    String getSectionId();
+    Long getSectionId();
 
-    void setSectionId(String sectionId);
+    void setSectionId(Long sectionId);
 
-    String getBooksId();
+    Long getBooksId();
 
-    void setBooksId(String booksId);
+    void setBooksId(Long booksId);
 }
