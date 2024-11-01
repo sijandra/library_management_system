@@ -1,5 +1,6 @@
 package com.library.library_management_system.modules.book.persistence.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,18 @@ public class PublisherRepository {
     @Autowired
     public PublisherRepository(IPublisherRepository publisherRepository) {
         this.publisherRepository = publisherRepository;
+    }
+
+    public List<Publisher> getAllPublisher() {
+        List<PublisherSchema> publisherSchemas = publisherRepository.findAll();
+        List<Publisher> publisherDomain = new ArrayList<>();
+
+        for (PublisherSchema publisherSchema : publisherSchemas) {
+            Publisher publisher = PublisherMapper.toDomain(publisherSchema);
+            publisherDomain.add(publisher);
+        }
+
+        return publisherDomain;
     }
 
     public Publisher getPublisherById(Long id) {

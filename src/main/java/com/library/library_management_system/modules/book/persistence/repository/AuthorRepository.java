@@ -1,5 +1,6 @@
 package com.library.library_management_system.modules.book.persistence.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,18 @@ public class AuthorRepository {
     @Autowired
     public AuthorRepository(IAuthorRepository authorRepository) {
         this.authorRepository = authorRepository;
+    }
+
+    public List<Author> getAllAuthor() {
+        List<AuthorSchema> authorSchemas = authorRepository.findAll();
+        List<Author> authorDomain = new ArrayList<>();
+
+        for (AuthorSchema authorSchema : authorSchemas) {
+            Author author = AuthorMapper.toDomain(authorSchema);
+            authorDomain.add(author);
+        }
+
+        return authorDomain;
     }
 
     public Author getAuthorById(Long id) {

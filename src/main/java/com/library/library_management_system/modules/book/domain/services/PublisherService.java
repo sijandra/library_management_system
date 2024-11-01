@@ -1,5 +1,7 @@
 package com.library.library_management_system.modules.book.domain.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.library.library_management_system.modules.book.domain.models.Genre;
 import com.library.library_management_system.modules.book.domain.models.Publisher;
 import com.library.library_management_system.modules.book.useCases.CreatePublisherUseCase;
+import com.library.library_management_system.modules.book.useCases.GetAllGenreUseCase;
 import com.library.library_management_system.modules.book.useCases.GetPublisherByIdUseCase;
 import com.library.library_management_system.modules.user.domain.services.JwtService;
 
@@ -21,20 +25,38 @@ import com.library.library_management_system.modules.user.domain.services.JwtSer
 public class PublisherService {
     private final CreatePublisherUseCase createPublisherUseCase;
     private final GetPublisherByIdUseCase getPublisherByIdUseCase;
+    private final GetAllGenreUseCase getAllGenreUseCase;
     private final JwtService jwtService;
 
     @Autowired
     public PublisherService(CreatePublisherUseCase createPublisherUseCase,
-            GetPublisherByIdUseCase getPublisherByIdUseCase,
+            GetPublisherByIdUseCase getPublisherByIdUseCase, GetAllGenreUseCase getAllGenreUseCase,
             JwtService jwtService) {
         this.createPublisherUseCase = createPublisherUseCase;
         this.getPublisherByIdUseCase = getPublisherByIdUseCase;
+        this.getAllGenreUseCase = getAllGenreUseCase;
         this.jwtService = jwtService;
     }
 
     @GetMapping
     public String demoPublisher() {
         return "Publisher service is working!";
+    }
+
+    @GetMapping("/get-all-publishers")
+    public ResponseEntity<List<Genre>> getAllPublishers(@RequestHeader() String token) {
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        String userId = jwtService.extractMetadata(token);
+
+        if (!jwtService.validateToken(token, userId)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        List<Genre> users = this.getAllGenreUseCase.execute();
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/get-publisher/{id}")
