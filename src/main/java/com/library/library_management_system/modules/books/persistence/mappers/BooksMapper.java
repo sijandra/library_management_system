@@ -12,7 +12,7 @@ public class BooksMapper {
         }
         return Books.create(
                 booksSchema.getId(),
-                booksSchema.getGenreId(),
+                booksSchema.getGenreIds(),
                 booksSchema.getBookIds(),
                 booksSchema.getBookCount(),
                 booksSchema.getNumberOfAvailableBooks(),
@@ -28,12 +28,13 @@ public class BooksMapper {
 
         BooksSchema booksSchema = new BooksSchema();
         booksSchema.setId(booksDomain.getId());
-        booksSchema.setGenreId(booksDomain.getGenreId());
+        booksSchema.setGenreIds(booksDomain.getGenreIds());
         booksSchema.setBookIds(booksDomain.getBookIds());
         booksSchema.setBookCount(booksDomain.getBookCount());
         booksSchema.setNumberOfAvailableBooks(booksDomain.getNumberOfAvailableBooks());
         booksSchema.setSectionId(booksDomain.getSectionId());
         booksSchema.setBorrowedBookIds(booksDomain.getBorrowedBookIds());
+        booksSchema.setTitle(booksDomain.getTitle());
 
         return booksSchema;
     }

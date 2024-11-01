@@ -2,18 +2,18 @@ package com.library.library_management_system.modules.books.domain.models;
 
 public class Books implements IBooks {
     private Long id;
-    private String genreId;
-    private String[] bookIds;
+    private Long[] genreIds;
+    private Long[] bookIds;
     private Integer bookCount;
     private Integer numberOfAvailableBooks;
-    private String sectionId;
-    private String[] borrowedBookIds;
+    private Long sectionId;
+    private Long[] borrowedBookIds;
     private String title;
 
-    protected Books(Long id, String genreId, String[] bookIds, Integer bookCount, Integer numberOfAvailableBooks,
-            String sectionId, String[] borrowedBookIds, String title) {
+    protected Books(Long id, Long[] genreIds, Long[] bookIds, Integer bookCount, Integer numberOfAvailableBooks,
+            Long sectionId, Long[] borrowedBookIds, String title) {
         this.id = id;
-        this.genreId = genreId;
+        this.genreIds = genreIds;
         this.bookIds = bookIds;
         this.bookCount = bookCount;
         this.numberOfAvailableBooks = numberOfAvailableBooks;
@@ -22,9 +22,13 @@ public class Books implements IBooks {
         this.title = title;
     }
 
-    public static Books create(Long id, String genreId, String[] bookIds, Integer bookCount,
-            Integer numberOfAvailableBooks, String sectionId, String[] borrowedBookIds, String title) {
-        return new Books(id, genreId, bookIds, bookCount, numberOfAvailableBooks, sectionId, borrowedBookIds, title);
+    public static Books create(Long id, Long[] genreIds, Long[] bookIds, Integer bookCount,
+            Integer numberOfAvailableBooks, Long sectionId, Long[] borrowedBookIds, String title) {
+        return new Books(id, genreIds, bookIds, bookCount, numberOfAvailableBooks, sectionId, borrowedBookIds, title);
+    }
+
+    public static Books createWithDefaults(Long id, Long[] genreIds, Long[] bookIds, Long sectionId, String title) {
+        return create(id, genreIds, bookIds, 1, 1, sectionId, new Long[0], title);
     }
 
     @Override
@@ -38,22 +42,22 @@ public class Books implements IBooks {
     }
 
     @Override
-    public String getGenreId() {
-        return genreId;
+    public Long[] getGenreIds() {
+        return genreIds;
     }
 
     @Override
-    public void setGenreId(String genreId) {
-        this.genreId = genreId;
+    public void setGenreId(Long[] genreIds) {
+        this.genreIds = genreIds;
     }
 
     @Override
-    public String[] getBookIds() {
+    public Long[] getBookIds() {
         return bookIds;
     }
 
     @Override
-    public void setBookIds(String[] bookIds) {
+    public void setBookIds(Long[] bookIds) {
         this.bookIds = bookIds;
     }
 
@@ -78,22 +82,22 @@ public class Books implements IBooks {
     }
 
     @Override
-    public String getSectionId() {
+    public Long getSectionId() {
         return sectionId;
     }
 
     @Override
-    public void setSectionId(String sectionId) {
+    public void setSectionId(Long sectionId) {
         this.sectionId = sectionId;
     }
 
     @Override
-    public String[] getBorrowedBookIds() {
+    public Long[] getBorrowedBookIds() {
         return borrowedBookIds;
     }
 
     @Override
-    public void setBorrowedBookIds(String[] borrowedBookIds) {
+    public void setBorrowedBookIds(Long[] borrowedBookIds) {
         this.borrowedBookIds = borrowedBookIds;
     }
 
@@ -105,5 +109,10 @@ public class Books implements IBooks {
     @Override
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void updateBooksCountsAndAvailability() {
+        this.bookCount = this.bookIds.length;
+        this.numberOfAvailableBooks = Math.max(0, this.bookIds.length - this.borrowedBookIds.length);
     }
 }

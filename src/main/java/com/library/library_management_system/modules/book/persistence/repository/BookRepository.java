@@ -71,4 +71,17 @@ public class BookRepository {
         BookSchema savedBookSchema = bookRepository.save(bookSchema);
         return BookMapper.toDomain(savedBookSchema);
     }
+
+    public Book updateBooksId(Long bookId, Long booksId) {
+        BookSchema existingBookSchema = bookRepository.findById(bookId).orElse(null);
+        
+        if (existingBookSchema == null) {
+            throw new RuntimeException("Book not found with ID: " + bookId);
+        }
+        
+        existingBookSchema.setBooksId(booksId);
+        BookSchema updatedBookSchema = bookRepository.save(existingBookSchema);
+        
+        return BookMapper.toDomain(updatedBookSchema);
+    }
 }

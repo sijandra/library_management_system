@@ -9,15 +9,15 @@ import com.library.library_management_system.modules.books.domain.models.Books;
 import com.library.library_management_system.modules.books.persistence.repository.BooksRepository;
 
 @Component
-public class GetBooksBySectionIdUseCase {
+public class GetAllBooksUseCase {
     private final BooksRepository booksRepository;
 
     @Autowired
-    public GetBooksBySectionIdUseCase(BooksRepository booksRepository) {
+    public GetAllBooksUseCase(BooksRepository booksRepository) {
         this.booksRepository = booksRepository;
     }
 
-    public List<Books> execute(Long sectionId) {
-        return this.booksRepository.getBooksBySectionId(sectionId);
+    public List<Books> execute() {
+        return this.booksRepository.getAllBooks();
     }
 }

@@ -67,8 +67,8 @@ public class BookService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
-        List<Book> users = this.getAllBookUseCase.execute();
-        return ResponseEntity.ok(users);
+        List<Book> books = this.getAllBookUseCase.execute();
+        return ResponseEntity.ok(books);
     }
 
     @GetMapping("/get-book/{id}")
