@@ -1,5 +1,6 @@
 package com.library.library_management_system.modules.book.persistence.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,18 @@ public class SectionRepository {
     @Autowired
     public SectionRepository(ISectionRepository sectionRepository) {
         this.sectionRepository = sectionRepository;
+    }
+
+    public List<Section> getAllSection() {
+        List<SectionSchema> sectionSchemas = sectionRepository.findAll();
+        List<Section> sectionDomain = new ArrayList<>();
+
+        for (SectionSchema sectionSchema : sectionSchemas) {
+            Section section = SectionMapper.toDomain(sectionSchema);
+            sectionDomain.add(section);
+        }
+
+        return sectionDomain;
     }
 
     public Section getSectionById(Long id) {

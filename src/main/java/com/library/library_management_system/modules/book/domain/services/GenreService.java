@@ -1,5 +1,7 @@
 package com.library.library_management_system.modules.book.domain.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.library.library_management_system.modules.book.domain.models.Genre;
 import com.library.library_management_system.modules.book.useCases.CreateGenreUseCase;
+import com.library.library_management_system.modules.book.useCases.GetAllGenreUseCase;
 import com.library.library_management_system.modules.book.useCases.GetGenreByIdUseCase;
 import com.library.library_management_system.modules.user.domain.services.JwtService;
 
@@ -21,19 +24,38 @@ import com.library.library_management_system.modules.user.domain.services.JwtSer
 public class GenreService {
     private final CreateGenreUseCase createGenreUseCase;
     private final GetGenreByIdUseCase getGenreByIdUseCase;
+    private final GetAllGenreUseCase getAllGenreUseCase;
     private final JwtService jwtService;
 
     @Autowired
     public GenreService(CreateGenreUseCase createGenreUseCase, GetGenreByIdUseCase getGenreByIdUseCase,
+            GetAllGenreUseCase getAllGenreUseCase,
             JwtService jwtService) {
         this.createGenreUseCase = createGenreUseCase;
         this.getGenreByIdUseCase = getGenreByIdUseCase;
+        this.getAllGenreUseCase = getAllGenreUseCase;
         this.jwtService = jwtService;
     }
 
     @GetMapping
     public String demoGenre() {
         return "Genre service is working!";
+    }
+
+    @GetMapping("/get-all-genres")
+    public ResponseEntity<List<Genre>> getAllGenres(@RequestHeader() String token) {
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        String userId = jwtService.extractMetadata(token);
+
+        if (!jwtService.validateToken(token, userId)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        List<Genre> users = this.getAllGenreUseCase.execute();
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/get-genre/{id}")

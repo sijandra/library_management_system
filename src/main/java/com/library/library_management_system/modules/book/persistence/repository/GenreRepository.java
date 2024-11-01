@@ -1,5 +1,6 @@
 package com.library.library_management_system.modules.book.persistence.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,18 @@ public class GenreRepository {
     @Autowired
     public GenreRepository(IGenreRepository genreRepository) {
         this.genreRepository = genreRepository;
+    }
+
+    public List<Genre> getAllGenre() {
+        List<GenreSchema> genreSchemas = genreRepository.findAll();
+        List<Genre> genreDomain = new ArrayList<>();
+
+        for (GenreSchema genreSchema : genreSchemas) {
+            Genre genre = GenreMapper.toDomain(genreSchema);
+            genreDomain.add(genre);
+        }
+
+        return genreDomain;
     }
 
     public Genre getGenreById(Long id) {

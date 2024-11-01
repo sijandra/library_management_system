@@ -20,6 +20,18 @@ public class BookRepository {
         this.bookRepository = bookRepository;
     }
 
+    public List<Book> getAllBooks() {
+        List<BookSchema> bookSchemas = bookRepository.findAll();
+        List<Book> bookDomain = new ArrayList<>();
+
+        for (BookSchema bookSchema : bookSchemas) {
+            Book book = BookMapper.toDomain(bookSchema);
+            bookDomain.add(book);
+        }
+
+        return bookDomain;
+    }
+
     public Book getBookById(Long id) {
         BookSchema bookSchema = bookRepository.findById(id).orElse(null);
         return BookMapper.toDomain(bookSchema);

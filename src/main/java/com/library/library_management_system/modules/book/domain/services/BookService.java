@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.library.library_management_system.modules.book.domain.models.Book;
 import com.library.library_management_system.modules.book.useCases.CreateBookUseCase;
+import com.library.library_management_system.modules.book.useCases.GetAllBookUseCase;
 import com.library.library_management_system.modules.book.useCases.GetBookByGenreIdUseCase;
 import com.library.library_management_system.modules.book.useCases.GetBookByIdUseCase;
 import com.library.library_management_system.modules.book.useCases.GetBookBySectionIdUseCase;
@@ -29,6 +30,7 @@ public class BookService {
     private final GetBookByTitleUseCase getBookByTitleUseCase;
     private final GetBookByGenreIdUseCase getBookByGenreIdUseCase;
     private final GetBookBySectionIdUseCase getBookBySectionIdUseCase;
+    private final GetAllBookUseCase getAllBookUseCase;
     private final JwtService jwtService;
 
     @Autowired
@@ -37,18 +39,36 @@ public class BookService {
             GetBookByTitleUseCase getBookByTitleUseCase,
             GetBookByGenreIdUseCase getBookByGenreIdUseCase,
             GetBookBySectionIdUseCase getBookBySectionIdUseCase,
+            GetAllBookUseCase getAllBookUseCase,
             JwtService jwtService) {
         this.createBookUseCase = createBookUseCase;
         this.getBookByIdUseCase = getBookByIdUseCase;
         this.getBookByTitleUseCase = getBookByTitleUseCase;
         this.getBookByGenreIdUseCase = getBookByGenreIdUseCase;
         this.getBookBySectionIdUseCase = getBookBySectionIdUseCase;
+        this.getAllBookUseCase = getAllBookUseCase;
         this.jwtService = jwtService;
     }
 
     @GetMapping
     public String demoBook() {
         return "Book service is working!";
+    }
+
+    @GetMapping("/get-all-books")
+    public ResponseEntity<List<Book>> getAllBooks(@RequestHeader() String token) {
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        String userId = jwtService.extractMetadata(token);
+
+        if (!jwtService.validateToken(token, userId)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        List<Book> users = this.getAllBookUseCase.execute();
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/get-book/{id}")

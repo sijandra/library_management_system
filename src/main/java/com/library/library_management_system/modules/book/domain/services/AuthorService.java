@@ -1,5 +1,7 @@
 package com.library.library_management_system.modules.book.domain.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.library.library_management_system.modules.book.domain.models.Author;
 import com.library.library_management_system.modules.book.useCases.CreateAuthorUseCase;
+import com.library.library_management_system.modules.book.useCases.GetAllAuthorUseCase;
 import com.library.library_management_system.modules.book.useCases.GetAuthorByIdUseCase;
 import com.library.library_management_system.modules.user.domain.services.JwtService;
 
@@ -21,19 +24,38 @@ import com.library.library_management_system.modules.user.domain.services.JwtSer
 public class AuthorService {
     private final CreateAuthorUseCase createAuthorUseCase;
     private final GetAuthorByIdUseCase getAuthorByIdUseCase;
+    private final GetAllAuthorUseCase getAllAuthorUseCase;
     private final JwtService jwtService;
 
     @Autowired
     public AuthorService(CreateAuthorUseCase createAuthorUseCase, GetAuthorByIdUseCase getAuthorByIdUseCase,
+            GetAllAuthorUseCase getAllAuthorUseCase,
             JwtService jwtService) {
         this.createAuthorUseCase = createAuthorUseCase;
         this.getAuthorByIdUseCase = getAuthorByIdUseCase;
+        this.getAllAuthorUseCase = getAllAuthorUseCase;
         this.jwtService = jwtService;
     }
 
     @GetMapping
     public String demoAuthor() {
         return "Author service is working!";
+    }
+
+    @GetMapping("/get-all-authors")
+    public ResponseEntity<List<Author>> getAllAuthors(@RequestHeader() String token) {
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        String userId = jwtService.extractMetadata(token);
+
+        if (!jwtService.validateToken(token, userId)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        List<Author> users = this.getAllAuthorUseCase.execute();
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/get-author/{id}")
