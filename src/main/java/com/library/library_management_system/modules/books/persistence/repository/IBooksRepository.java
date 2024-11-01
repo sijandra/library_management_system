@@ -13,5 +13,7 @@ public interface IBooksRepository extends JpaRepository<BooksSchema, Long> {
 
     List<BooksSchema> getBooksByTitleContaining(String title);
 
-    List<BooksSchema> getBooksBySectionId(String sectionId);
+    List<BooksSchema> getBooksBySectionId(Long sectionId);
+
+    BooksSchema findBooksByTitle(String title);
 }

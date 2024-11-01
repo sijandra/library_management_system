@@ -18,6 +18,6 @@ public class GetBooksByTitleUseCase {
     }
 
     public List<Books> execute(String title) {
-        return this.booksRepository.getBooksByTitle(title);
+        return this.booksRepository.getBooksByTitleContaining(title);
     }
 }

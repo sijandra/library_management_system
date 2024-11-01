@@ -17,11 +17,11 @@ public class BooksSchema {
     private Long id;
 
     @Column(name = "genre_id", nullable = false)
-    private String genreId;
+    private Long[] genreIds;
 
     @ElementCollection
     @Column(name = "book_ids")
-    private String[] bookIds = new String[0];
+    private Long[] bookIds = new Long[0];
 
     @Column(name = "book_count")
     private Integer bookCount;
@@ -30,12 +30,13 @@ public class BooksSchema {
     private Integer numberOfAvailableBooks;
 
     @Column(name = "section_id")
-    private String sectionId;
+    private Long sectionId;
 
     @ElementCollection
     @Column(name = "borrowed_book_ids")
-    private String[] borrowedBookIds = new String[0];
+    private Long[] borrowedBookIds = new Long[0];
 
+    @Column(unique = true)
     private String title;
 
     public Long getId() {
@@ -46,19 +47,19 @@ public class BooksSchema {
         this.id = id;
     }
 
-    public String getGenreId() {
-        return genreId;
+    public Long[] getGenreIds() {
+        return genreIds;
     }
 
-    public void setGenreId(String genreId) {
-        this.genreId = genreId;
+    public void setGenreIds(Long[] genreIds) {
+        this.genreIds = genreIds;
     }
 
-    public String[] getBookIds() {
+    public Long[] getBookIds() {
         return bookIds;
     }
 
-    public void setBookIds(String[] bookIds) {
+    public void setBookIds(Long[] bookIds) {
         this.bookIds = bookIds;
     }
 
@@ -78,19 +79,19 @@ public class BooksSchema {
         this.numberOfAvailableBooks = numberOfAvailableBooks;
     }
 
-    public String getSectionId() {
+    public Long getSectionId() {
         return sectionId;
     }
 
-    public void setSectionId(String sectionId) {
+    public void setSectionId(Long sectionId) {
         this.sectionId = sectionId;
     }
 
-    public String[] getBorrowedBookIds() {
+    public Long[] getBorrowedBookIds() {
         return borrowedBookIds;
     }
 
-    public void setBorrowedBookIds(String[] borrowedBookIds) {
+    public void setBorrowedBookIds(Long[] borrowedBookIds) {
         this.borrowedBookIds = borrowedBookIds;
     }
 

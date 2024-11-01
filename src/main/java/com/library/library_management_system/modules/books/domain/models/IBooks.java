@@ -5,13 +5,13 @@ public interface IBooks {
 
     void setId(Long id);
 
-    String getGenreId();
+    Long[] getGenreIds();
 
-    void setGenreId(String genreId);
+    void setGenreId(Long[] genreIds);
 
-    String[] getBookIds();
+    Long[] getBookIds();
 
-    void setBookIds(String[] bookIds);
+    void setBookIds(Long[] bookIds);
 
     Integer getBookCount();
 
@@ -21,13 +21,13 @@ public interface IBooks {
 
     void setNumberOfAvailableBooks(Integer numberOfAvailableBooks);
 
-    String getSectionId();
+    Long getSectionId();
 
-    void setSectionId(String sectionId);
+    void setSectionId(Long sectionId);
 
-    String[] getBorrowedBookIds();
+    Long[] getBorrowedBookIds();
 
-    void setBorrowedBookIds(String[] borrowedBookIds);
+    void setBorrowedBookIds(Long[] borrowedBookIds);
 
     String getTitle();
 

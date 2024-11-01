@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.library.library_management_system.modules.books.domain.models.Books;
 import com.library.library_management_system.modules.books.useCases.CreateBooksUseCase;
+import com.library.library_management_system.modules.books.useCases.GetAllBooksUseCase;
+import com.library.library_management_system.modules.books.useCases.GetBooksByExactTitleUseCase;
 import com.library.library_management_system.modules.books.useCases.GetBooksByIdUseCase;
 import com.library.library_management_system.modules.books.useCases.GetBooksBySectionIdUseCase;
 import com.library.library_management_system.modules.books.useCases.GetBooksByTitleUseCase;
@@ -27,6 +29,8 @@ public class BooksService {
     private final GetBooksByIdUseCase getBooksByIdUseCase;
     private final GetBooksByTitleUseCase getBooksByTitleUseCase;
     private final GetBooksBySectionIdUseCase getBooksBySectionIdUseCase;
+    private final GetBooksByExactTitleUseCase getBooksByExactTitleUseCase;
+    private final GetAllBooksUseCase getAllBooksUseCase;
     private final JwtService jwtService;
 
     @Autowired
@@ -34,11 +38,15 @@ public class BooksService {
             GetBooksByIdUseCase getBooksByIdUseCase,
             GetBooksByTitleUseCase getBooksByTitleUseCase,
             GetBooksBySectionIdUseCase getBooksBySectionIdUseCase,
+            GetBooksByExactTitleUseCase getBooksByExactTitleUseCase,
+            GetAllBooksUseCase getAllBooksUseCase,
             JwtService jwtService) {
         this.createBooksUseCase = createBooksUseCase;
         this.getBooksByIdUseCase = getBooksByIdUseCase;
         this.getBooksByTitleUseCase = getBooksByTitleUseCase;
         this.getBooksBySectionIdUseCase = getBooksBySectionIdUseCase;
+        this.getBooksByExactTitleUseCase = getBooksByExactTitleUseCase;
+        this.getAllBooksUseCase = getAllBooksUseCase;
         this.jwtService = jwtService;
     }
 
@@ -62,6 +70,22 @@ public class BooksService {
         return book != null ? ResponseEntity.ok(book) : ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/get-all-books")
+    public ResponseEntity<List<Books>> getAllBooks(@RequestHeader() String token) {
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        String userId = jwtService.extractMetadata(token);
+        if (!jwtService.validateToken(token, userId)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        List<Books> books = this.getAllBooksUseCase.execute();
+
+        return ResponseEntity.ok(books);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Books> createBooks(@RequestHeader() String token, @RequestBody Books books) {
         if (token == null) {
@@ -78,7 +102,7 @@ public class BooksService {
     }
 
     @GetMapping("/get-by-title/{title}")
-    public ResponseEntity<List<Books>> getBooksByTitle(@RequestHeader() String token, @PathVariable String title) {
+    public ResponseEntity<List<Books>> findBooksByTitle(@RequestHeader() String token, @PathVariable String title) {
         if (token == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
@@ -94,7 +118,7 @@ public class BooksService {
 
     @GetMapping("/get-by-section/{sectionId}")
     public ResponseEntity<List<Books>> getBooksBySectionId(@RequestHeader() String token,
-            @PathVariable String sectionId) {
+            @PathVariable Long sectionId) {
         if (token == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
@@ -105,6 +129,21 @@ public class BooksService {
         }
 
         List<Books> books = this.getBooksBySectionIdUseCase.execute(sectionId);
-        return ResponseEntity.ok(books);
+        return books != null ? ResponseEntity.ok(books) : ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/get-by-exact-title/{title}")
+    public ResponseEntity<Books> getBooksByExactTitle(@RequestHeader() String token, @PathVariable String title) {
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        String userId = jwtService.extractMetadata(token);
+        if (!jwtService.validateToken(token, userId)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        Books books = this.getBooksByExactTitleUseCase.execute(title);
+        return books != null ? ResponseEntity.ok(books) : ResponseEntity.notFound().build();
     }
 }
