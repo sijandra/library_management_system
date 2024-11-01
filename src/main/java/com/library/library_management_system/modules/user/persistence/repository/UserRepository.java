@@ -42,6 +42,11 @@ public class UserRepository {
         return UserMapper.toDomain(userSchema);
     }
 
+    public User getUserById(Long id) {
+        UserSchema userSchema = userRepository.findById(id);
+        return UserMapper.toDomain(userSchema);
+    }
+
     public User createUser(User user) {
         String hashedPassword = this.passwordEncoder.encode(user.getPassword());
 

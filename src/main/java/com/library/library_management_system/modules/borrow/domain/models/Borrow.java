@@ -7,33 +7,20 @@ public class Borrow implements IBorrow {
     private String returnDate;
     private String borrowDate;
     private String borrowStatus;
-    private Double fineFee;
-    private Boolean isFinePaid;
-    private Boolean isLost;
-    private Double finePerDay;
-    private Long userId;
 
     protected Borrow(Long id, Long bookId, Long borrowerUserId, String returnDate, String borrowDate,
-            String borrowStatus,
-            Double fineFee, Boolean isFinePaid, Boolean isLost, Double finePerDay, Long userId) {
+            String borrowStatus) {
         this.id = id;
         this.bookId = bookId;
         this.borrowerUserId = borrowerUserId;
         this.returnDate = returnDate;
         this.borrowDate = borrowDate;
         this.borrowStatus = borrowStatus;
-        this.fineFee = fineFee;
-        this.isFinePaid = isFinePaid;
-        this.isLost = isLost;
-        this.finePerDay = finePerDay;
-        this.userId = userId;
     }
 
     public static Borrow create(Long id, Long bookId, Long borrowerUserId, String returnDate, String borrowDate,
-            String borrowStatus, Double fineFee, Boolean isFinePaid, Boolean isLost,
-            Double finePerDay, Long userId) {
-        return new Borrow(id, bookId, borrowerUserId, returnDate, borrowDate, borrowStatus, fineFee, isFinePaid, isLost,
-                finePerDay, userId);
+            String borrowStatus) {
+        return new Borrow(id, bookId, borrowerUserId, returnDate, borrowDate, borrowStatus);
     }
 
     @Override
@@ -94,53 +81,5 @@ public class Borrow implements IBorrow {
     @Override
     public void setBorrowStatus(String borrowStatus) {
         this.borrowStatus = borrowStatus;
-    }
-
-    @Override
-    public Double getFineFee() {
-        return fineFee;
-    }
-
-    @Override
-    public void setFineFee(Double fineFee) {
-        this.fineFee = fineFee;
-    }
-
-    @Override
-    public Boolean getIsFinePaid() {
-        return isFinePaid;
-    }
-
-    @Override
-    public void setIsFinePaid(Boolean isFinePaid) {
-        this.isFinePaid = isFinePaid;
-    }
-
-    @Override
-    public Boolean getIsLost() {
-        return isLost;
-    }
-
-    @Override
-    public void setIsLost(Boolean isLost) {
-        this.isLost = isLost;
-    }
-
-    @Override
-    public Double getFinePerDay() {
-        return finePerDay;
-    }
-
-    @Override
-    public void setFinePerDay(Double finePerDay) {
-        this.finePerDay = finePerDay;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 }

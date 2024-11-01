@@ -8,4 +8,5 @@ import com.library.library_management_system.modules.user.persistence.mappers.Us
 @Repository
 public interface IUserRepository extends JpaRepository<UserSchema, String> {
     UserSchema findByEmail(String email);
+    UserSchema findById(Long id);
 }

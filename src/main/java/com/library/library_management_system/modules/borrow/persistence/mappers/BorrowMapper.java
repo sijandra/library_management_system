@@ -16,12 +16,7 @@ public class BorrowMapper {
                 borrowSchema.getBorrowerUserId(),
                 borrowSchema.getReturnDate(),
                 borrowSchema.getBorrowDate(),
-                borrowSchema.getBorrowStatus(),
-                borrowSchema.getFineFee(),
-                borrowSchema.getIsFinePaid(),
-                borrowSchema.getIsLost(),
-                borrowSchema.getFinePerDay(),
-                borrowSchema.getUserId());
+                borrowSchema.getBorrowStatus());
     }
 
     public static BorrowSchema toPersistence(Borrow borrowDomain) {
@@ -36,10 +31,6 @@ public class BorrowMapper {
         borrowSchema.setReturnDate(borrowDomain.getReturnDate());
         borrowSchema.setBorrowDate(borrowDomain.getBorrowDate());
         borrowSchema.setBorrowStatus(borrowDomain.getBorrowStatus());
-        borrowSchema.setFineFee(borrowDomain.getFineFee());
-        borrowSchema.setIsFinePaid(borrowDomain.getIsFinePaid());
-        borrowSchema.setIsLost(borrowDomain.getIsLost());
-        borrowSchema.setFinePerDay(borrowDomain.getFinePerDay());
 
         return borrowSchema;
     }
