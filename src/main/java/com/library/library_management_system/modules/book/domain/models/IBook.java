@@ -41,13 +41,13 @@ public interface IBook {
 
     void setAuthorsId(String[] authorsId);
 
-    String getGenreId();
+    String[] getGenreIds();
 
-    void setGenreId(String genreId);
+    void setGenreIds(String[] genreIds);
 
-    String getPages();
+    Integer getPages();
 
-    void setPages(String pages);
+    void setPages(Integer pages);
 
     String getSectionId();
 

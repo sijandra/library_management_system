@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "books")
+@Table(name = "book")
 public class BookSchema {
 
     @Id
@@ -40,10 +40,11 @@ public class BookSchema {
     @Column(name = "authors_id")
     private String[] authorsId = new String[0];
 
-    @Column(name = "genre_id")
-    private String genreId;
+    @ElementCollection
+    @Column(name = "genre_ids")
+    private String[] genreIds = new String[0];
 
-    private String pages;
+    private Integer pages;
 
     @Column(name = "section_id")
     private String sectionId;
@@ -131,22 +132,6 @@ public class BookSchema {
         this.authorsId = authorsId;
     }
 
-    public String getGenreId() {
-        return genreId;
-    }
-
-    public void setGenreId(String genreId) {
-        this.genreId = genreId;
-    }
-
-    public String getPages() {
-        return pages;
-    }
-
-    public void setPages(String pages) {
-        this.pages = pages;
-    }
-
     public String getSectionId() {
         return sectionId;
     }
@@ -161,5 +146,21 @@ public class BookSchema {
 
     public void setBooksId(String booksId) {
         this.booksId = booksId;
+    }
+
+    public String[] getGenreIds() {
+        return genreIds;
+    }
+
+    public void setGenreIds(String[] genreIds) {
+        this.genreIds = genreIds;
+    }
+
+    public Integer getPages() {
+        return pages;
+    }
+
+    public void setPages(Integer pages) {
+        this.pages = pages;
     }
 }

@@ -11,14 +11,14 @@ public class Book implements IBook {
     private String publisherId;
     private String language;
     private String[] authorsId;
-    private String genreId;
-    private String pages;
+    private String[] genreIds;
+    private Integer pages;
     private String sectionId;
     private String booksId;
 
     protected Book(Long id, String title, String description, String synopsis, Integer price, String bookImageUrl,
-            String publishedDate, String publisherId, String language, String[] authorsId, String genreId,
-            String pages, String sectionId, String booksId) {
+            String publishedDate, String publisherId, String language, String[] authorsId, String[] genreIds,
+            Integer pages, String sectionId, String booksId) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -29,7 +29,7 @@ public class Book implements IBook {
         this.publisherId = publisherId;
         this.language = language;
         this.authorsId = authorsId;
-        this.genreId = genreId;
+        this.genreIds = genreIds;
         this.pages = pages;
         this.sectionId = sectionId;
         this.booksId = booksId;
@@ -37,9 +37,9 @@ public class Book implements IBook {
 
     public static Book create(Long id, String title, String description, String synopsis, Integer price,
             String bookImageUrl, String publishedDate, String publisherId, String language,
-            String[] authorsId, String genreId, String pages, String sectionId, String booksId) {
+            String[] authorsId, String[] genreIds, Integer pages, String sectionId, String booksId) {
         return new Book(id, title, description, synopsis, price, bookImageUrl, publishedDate, publisherId,
-                language, authorsId, genreId, pages, sectionId, booksId);
+                language, authorsId, genreIds, pages, sectionId, booksId);
     }
 
     @Override
@@ -143,26 +143,6 @@ public class Book implements IBook {
     }
 
     @Override
-    public String getGenreId() {
-        return genreId;
-    }
-
-    @Override
-    public void setGenreId(String genreId) {
-        this.genreId = genreId;
-    }
-
-    @Override
-    public String getPages() {
-        return pages;
-    }
-
-    @Override
-    public void setPages(String pages) {
-        this.pages = pages;
-    }
-
-    @Override
     public String getSectionId() {
         return sectionId;
     }
@@ -180,5 +160,25 @@ public class Book implements IBook {
     @Override
     public void setBooksId(String booksId) {
         this.booksId = booksId;
+    }
+
+    @Override
+    public String[] getGenreIds() {
+        return genreIds;
+    }
+
+    @Override
+    public void setGenreIds(String[] genreIds) {
+        this.genreIds = genreIds;
+    }
+
+    @Override
+    public Integer getPages() {
+        return pages;
+    }
+
+    @Override
+    public void setPages(Integer pages) {
+        this.pages = pages;
     }
 }
