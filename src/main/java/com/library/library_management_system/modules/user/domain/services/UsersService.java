@@ -46,9 +46,9 @@ public class UsersService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
-        String email = jwtService.extractMetadata(token);
+        String userId = jwtService.extractMetadata(token);
 
-        if (!jwtService.validateToken(token, email)) {
+        if (!jwtService.validateToken(token, userId)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 

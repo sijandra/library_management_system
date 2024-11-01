@@ -15,11 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.library.library_management_system.modules.books.domain.models.Books;
 import com.library.library_management_system.modules.books.useCases.CreateBooksUseCase;
-import com.library.library_management_system.modules.books.useCases.GetAvailableBooksUseCase;
 import com.library.library_management_system.modules.books.useCases.GetBooksByIdUseCase;
 import com.library.library_management_system.modules.books.useCases.GetBooksBySectionIdUseCase;
 import com.library.library_management_system.modules.books.useCases.GetBooksByTitleUseCase;
-import com.library.library_management_system.modules.books.useCases.GetUnavailableBooksUseCase;
 import com.library.library_management_system.modules.user.domain.services.JwtService;
 
 @RestController
@@ -28,25 +26,19 @@ public class BooksService {
     private final CreateBooksUseCase createBooksUseCase;
     private final GetBooksByIdUseCase getBooksByIdUseCase;
     private final GetBooksByTitleUseCase getBooksByTitleUseCase;
-    private final GetAvailableBooksUseCase getAvailableBooksUseCase;
     private final GetBooksBySectionIdUseCase getBooksBySectionIdUseCase;
-    private final GetUnavailableBooksUseCase getUnavailableBooksUseCase;
     private final JwtService jwtService;
 
     @Autowired
     public BooksService(CreateBooksUseCase createBooksUseCase,
             GetBooksByIdUseCase getBooksByIdUseCase,
             GetBooksByTitleUseCase getBooksByTitleUseCase,
-            GetAvailableBooksUseCase getAvailableBooksUseCase,
             GetBooksBySectionIdUseCase getBooksBySectionIdUseCase,
-            GetUnavailableBooksUseCase getUnavailableBooksUseCase,
             JwtService jwtService) {
         this.createBooksUseCase = createBooksUseCase;
         this.getBooksByIdUseCase = getBooksByIdUseCase;
         this.getBooksByTitleUseCase = getBooksByTitleUseCase;
-        this.getAvailableBooksUseCase = getAvailableBooksUseCase;
         this.getBooksBySectionIdUseCase = getBooksBySectionIdUseCase;
-        this.getUnavailableBooksUseCase = getUnavailableBooksUseCase;
         this.jwtService = jwtService;
     }
 
@@ -61,8 +53,8 @@ public class BooksService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
-        String email = jwtService.extractMetadata(token);
-        if (!jwtService.validateToken(token, email)) {
+        String userId = jwtService.extractMetadata(token);
+        if (!jwtService.validateToken(token, userId)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
@@ -76,8 +68,8 @@ public class BooksService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
-        String email = jwtService.extractMetadata(token);
-        if (!jwtService.validateToken(token, email)) {
+        String userId = jwtService.extractMetadata(token);
+        if (!jwtService.validateToken(token, userId)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
@@ -91,28 +83,13 @@ public class BooksService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
-        String email = jwtService.extractMetadata(token);
-        if (!jwtService.validateToken(token, email)) {
+        String userId = jwtService.extractMetadata(token);
+        if (!jwtService.validateToken(token, userId)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
         List<Books> books = this.getBooksByTitleUseCase.execute(title);
         return books != null ? ResponseEntity.ok(books) : ResponseEntity.notFound().build();
-    }
-
-    @GetMapping("/available")
-    public ResponseEntity<List<Books>> getAvailableBooks(@RequestHeader() String token) {
-        if (token == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
-
-        String email = jwtService.extractMetadata(token);
-        if (!jwtService.validateToken(token, email)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
-
-        List<Books> availableBooks = this.getAvailableBooksUseCase.execute();
-        return ResponseEntity.ok(availableBooks);
     }
 
     @GetMapping("/get-by-section/{sectionId}")
@@ -122,27 +99,12 @@ public class BooksService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
-        String email = jwtService.extractMetadata(token);
-        if (!jwtService.validateToken(token, email)) {
+        String userId = jwtService.extractMetadata(token);
+        if (!jwtService.validateToken(token, userId)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
         List<Books> books = this.getBooksBySectionIdUseCase.execute(sectionId);
         return ResponseEntity.ok(books);
-    }
-
-    @GetMapping("/unavailable")
-    public ResponseEntity<List<Books>> getUnavailableBooks(@RequestHeader() String token) {
-        if (token == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
-
-        String email = jwtService.extractMetadata(token);
-        if (!jwtService.validateToken(token, email)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
-
-        List<Books> unavailableBooks = this.getUnavailableBooksUseCase.execute();
-        return ResponseEntity.ok(unavailableBooks);
     }
 }

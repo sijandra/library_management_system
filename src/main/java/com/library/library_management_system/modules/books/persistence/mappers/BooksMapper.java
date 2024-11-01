@@ -1,7 +1,6 @@
 package com.library.library_management_system.modules.books.persistence.mappers;
 
 import com.library.library_management_system.modules.books.domain.models.Books;
-import com.library.library_management_system.modules.books.domain.models.IBooks;
 
 public class BooksMapper {
     private BooksMapper() {
@@ -18,7 +17,8 @@ public class BooksMapper {
                 booksSchema.getBookCount(),
                 booksSchema.getNumberOfAvailableBooks(),
                 booksSchema.getSectionId(),
-                booksSchema.getBorrowedBookIds());
+                booksSchema.getBorrowedBookIds(),
+                booksSchema.getTitle());
     }
 
     public static BooksSchema toPersistence(Books booksDomain) {

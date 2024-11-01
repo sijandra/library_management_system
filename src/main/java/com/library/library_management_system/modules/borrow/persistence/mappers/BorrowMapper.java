@@ -20,7 +20,8 @@ public class BorrowMapper {
                 borrowSchema.getFineFee(),
                 borrowSchema.getIsFinePaid(),
                 borrowSchema.getIsLost(),
-                borrowSchema.getFinePerDay());
+                borrowSchema.getFinePerDay(),
+                borrowSchema.getUserId());
     }
 
     public static BorrowSchema toPersistence(Borrow borrowDomain) {
