@@ -22,7 +22,7 @@ public class BookMapper {
                 bookSchema.getPublisherId(),
                 bookSchema.getLanguage(),
                 bookSchema.getAuthorsId(),
-                bookSchema.getGenreId(),
+                bookSchema.getGenreIds(),
                 bookSchema.getPages(),
                 bookSchema.getSectionId(),
                 bookSchema.getBooksId());
@@ -44,7 +44,7 @@ public class BookMapper {
         bookSchema.setPublisherId(bookDomain.getPublisherId());
         bookSchema.setLanguage(bookDomain.getLanguage());
         bookSchema.setAuthorsId(bookDomain.getAuthorsId());
-        bookSchema.setGenreId(bookDomain.getGenreId());
+        bookSchema.setGenreIds(bookDomain.getGenreIds());
         bookSchema.setPages(bookDomain.getPages());
         bookSchema.setSectionId(bookDomain.getSectionId());
         bookSchema.setBooksId(bookDomain.getBooksId());

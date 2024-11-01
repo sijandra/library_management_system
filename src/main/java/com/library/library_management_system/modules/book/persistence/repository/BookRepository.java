@@ -44,8 +44,8 @@ public class BookRepository {
                 .collect(Collectors.toList());
     }
 
-    public List<Book> getBookByGenreId(String genreId) {
-        List<BookSchema> bookSchemas = bookRepository.findByGenreId(genreId);
+    public List<Book> getBooksByGenreIds(Long[] genreIds) {
+        List<BookSchema> bookSchemas = bookRepository.findByGenreIds(genreIds);
         List<Book> books = new ArrayList<>();
 
         for (BookSchema bookSchema : bookSchemas) {
@@ -55,7 +55,7 @@ public class BookRepository {
         return books;
     }
 
-    public List<Book> getBookBySectionId(String sectionId) {
+    public List<Book> getBookBySectionId(Long sectionId) {
         List<BookSchema> bookSchemas = bookRepository.findBySectionId(sectionId);
         List<Book> books = new ArrayList<>();
 

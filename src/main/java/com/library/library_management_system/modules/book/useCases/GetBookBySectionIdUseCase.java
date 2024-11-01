@@ -17,7 +17,7 @@ public class GetBookBySectionIdUseCase {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> execute(String sectionId) {
+    public List<Book> execute(Long sectionId) {
         return this.bookRepository.getBookBySectionId(sectionId);
     }
 }
