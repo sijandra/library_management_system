@@ -14,7 +14,7 @@ public class LoginUserUseCase {
         this.userRepository = userRepository;
     }
 
-    public String execute(String email, String password) {
+    public Object[] execute(String email, String password) {
         return this.userRepository.loginUser(email, password);
     }
 }

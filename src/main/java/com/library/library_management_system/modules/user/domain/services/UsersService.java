@@ -81,23 +81,47 @@ public class UsersService {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User createdUser = this.createUserUseCase.execute(user);
-
-        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    public ResponseEntity<?> createUser(@RequestBody User user) {
+        try {
+            User createdUser = this.createUserUseCase.execute(user);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(Map.of("data", createdUser));
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = Map.of(
+                    "message", Map.of(
+                            "message", "An error occurred while creating the user",
+                            "details", e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(errorResponse);
+        }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody Map<String, String> loginData) {
-        String email = loginData.get("email");
-        String password = loginData.get("password");
-        String userToken = this.loginUserUseCase.execute(email, password);
+    public ResponseEntity<?> loginUser(@RequestBody Map<String, String> loginData) {
+        try {
+            String email = loginData.get("email");
+            String password = loginData.get("password");
+            Object[] loginResponse = this.loginUserUseCase.execute(email, password);
 
-        if (userToken == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            if (loginResponse == null) {
+                Map<String, Object> errorResponse = Map.of(
+                        "data", Map.of(
+                                "message", "Invalid credentials"));
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+            }
+
+            String token = (String) loginResponse[0];
+            String role = (String) loginResponse[1];
+            Long userId = (Long) loginResponse[2];
+
+            return ResponseEntity.ok(Map.of("data", Map.of("token", token, "role", role, "userId", userId)));
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = Map.of(
+                    "data", Map.of(
+                            "message", "An error occurred during login",
+                            "details", e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
-
-        return new ResponseEntity<>(userToken, HttpStatus.OK);
     }
 
     @PostMapping("/logout")

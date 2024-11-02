@@ -66,7 +66,7 @@ public class UserRepository {
         return passwordEncoder.matches(rawPassword, hashedPassword);
     }
 
-    public String loginUser(String email, String password) {
+    public Object[] loginUser(String email, String password) {
         User user;
 
         if (email != null && !email.isEmpty()) {
@@ -84,7 +84,8 @@ public class UserRepository {
             return null;
         }
 
-        return this.jwtService.generateToken(user.getId().toString());
+        String token = this.jwtService.generateToken(user.getId().toString());
+        return new Object[] { token, user.getRole(), user.getId() };
     }
 
     public String logoutUser(String token) {
